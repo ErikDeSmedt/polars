@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Parquet definition and repetition levels"><meta name="keywords" content="rust, rustlang, rust-lang, levels"><title>parquet::arrow::levels - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../parquet/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><p class="location">Module levels</p><div class="sidebar-elems"><p class="location"><a href="../../index.html">parquet</a>::<wbr><a href="../index.html">arrow</a></p><div id="sidebar-vars" data-name="levels" data-ty="mod" data-relpath="../"></div><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Module <a href="../../index.html">parquet</a>::<wbr><a href="../index.html">arrow</a>::<wbr><a class="mod" href="">levels</a></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../../../src/parquet/arrow/levels.rs.html#18-1401" title="goto source code">[src]</a></span></h1><div class="docblock"><p>Parquet definition and repetition levels</p>
+<p>Contains the algorithm for computing definition and repetition levels.
+The algorithm works by tracking the slots of an array that should
+ultimately be populated when writing to Parquet.
+Parquet achieves nesting through definition levels and repetition levels [1].
+Definition levels specify how many optional fields in the part for the column
+are defined.
+Repetition levels specify at what repeated field (list) in the path a column
+is defined.</p>
+<p>In a nested data structure such as <code>a.b.c</code>, one can see levels as defining
+whether a record is defined at <code>a</code>, <code>a.b</code>, or <code>a.b.c</code>.
+Optional fields are nullable fields, thus if all 3 fields
+are nullable, the maximum definition could be = 3 if there are no lists.</p>
+<p>The algorithm in this module computes the necessary information to enable
+the writer to keep track of which columns are at which levels, and to extract
+the correct values at the correct slots from Arrow arrays.</p>
+<p>It works by walking a record batch’s arrays, keeping track of what values
+are non-null, their positions and computing what their levels are.</p>
+<p>[1] <a href="https://github.com/apache/parquet-format#nested-encoding">parquet-format#nested-encoding</a></p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="parquet"></div>
+    <script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>
